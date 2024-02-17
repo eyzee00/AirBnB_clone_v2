@@ -235,8 +235,10 @@ class HBNBCommand(cmd.Cmd):
                 print_list.append(str(v))
 
         print("[", end="")
-        for string in print_list:
-            print(string.strip('"'), end="")
+        for i in range(0, len(print_list)):
+            print(print_list[i].strip('"'), end="")
+            if i != len(print_list) - 1:
+                print(", ", end="")
         print("]")
 
     def help_all(self):
