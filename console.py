@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -218,28 +219,31 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-    def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
-        print_list = []
-
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage.all().items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+    
+    def do_all(self, line):
+        """
+        Prints all string representation of all instances,
+        based or not on the class name
+        """
+        storage.reload()
+        instance_dict = storage.all()
+        if line != "" and line not in HBNBCommand.classes.keys():
+            print("** class doesn't exist **")
+        elif line == "":
+            str_list = [f"{value}"
+                        for value in instance_dict.values()]
+            print(str_list)
         else:
-            for k, v in storage.all().items():
-                print_list.append(str(v))
-
-        print("[", end="")
-        for i in range(0, len(print_list)):
-            print(print_list[i].strip('"'), end="")
-            if i != len(print_list) - 1:
-                print(", ", end="")
-        print("]")
+            args = line.split()
+            class_name = args[0]
+            if class_name not in globals().keys():
+                print("** class doesn't exist **")
+            else:
+                re_match = r'^{}'.format(class_name)
+                str_list = [f"{value}]"
+                            for key, value in instance_dict.items()
+                            if re.match(re_match, key)]
+                print(str_list)
 
     def help_all(self):
         """ Help information for the all command """
