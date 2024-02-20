@@ -26,11 +26,7 @@ class DBStorage:
         )
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
-        
-        self.__session = scoped_session(sessionmaker(
-            bind=self.__engine,
-            expire_on_commit=False
-        ))
+
 
     def all(self, cls=None):
         """query on the current db session all objects of a class"""
@@ -38,6 +34,7 @@ class DBStorage:
         classes = filter(lambda c: cls is None or c.__name__ == cls,
                           BaseModel.__subclasses__())
         objects = {}
+        
         for class_obj in classes:
             class_name = class_obj.__name__
             query = self.__session.query(class_obj).all()
