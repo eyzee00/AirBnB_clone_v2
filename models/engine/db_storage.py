@@ -32,7 +32,7 @@ class DBStorage:
         """query on the current db session all objects of a class"""
         
         classes = filter(lambda c: cls is None or c.__name__ == cls,
-                          BaseModel.__subclasses__())
+                          Base.__subclasses__())
         objects = {}
         
         for class_obj in classes:
@@ -47,7 +47,7 @@ class DBStorage:
     
     def new(self, obj):
         """add an object to the curerent db session"""
-        return self.__session.add(obj)
+        self.__session.add(obj)
     
     def save(self):
         """commit all changes of the current db session"""
