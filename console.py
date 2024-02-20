@@ -138,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
                 newInstance = eval(string_list[0])()
             else:
                 newInstance = eval(string_list[0])(**key_value_dict)
-
+                
             storage.new(newInstance)
             print(newInstance.id)
             newInstance.save()
