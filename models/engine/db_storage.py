@@ -2,7 +2,7 @@
 """defines a database based storage engine"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from base_model import Base, BaseModel
+from models.base_model import Base, BaseModel
 import os
 
 
@@ -20,7 +20,7 @@ class DBStorage:
         db = os.getenv("HBNB_MYSQL_DB")
         
         self.__engine = create_engine(
-            "mysql+myqldb://{}:{}@{}:3306/{}"
+            "mysql+mysqldb://{}:{}@{}:3306/{}"
             .format(user, passwd, host, db),
             pool_pre_ping=True
         )
@@ -63,8 +63,8 @@ class DBStorage:
 
     def reload(self):
         """create all tables in the database"""
-        from city import City
-        from state import State
+        from models.city import City
+        from models.state import State
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(
             bind=self.__engine,
