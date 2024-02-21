@@ -8,8 +8,8 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class Place (BaseModel):
-    __tablename_ = 'places'
+class Place (BaseModel, Base):
+    __tablename__ = 'places'
     """ A place to stay """
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -21,7 +21,7 @@ class Place (BaseModel):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float)
     longitude = Column(Float)
-    review = relationship('Review', backref='place', cascade='delete')
+    reviews = relationship('Review', backref='place', cascade='delete')
     amenity_ids = []
 
     if os.getenv("HBNB_TYPE_STORAGE", None) != 'db':
