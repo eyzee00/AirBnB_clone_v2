@@ -114,13 +114,13 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         return False
 
-    def do_create(self, command):
+    def do_create(self, arg):
         """ Create an object of any class"""
         try:
-            if not command:
+            if not arg:
                 raise SyntaxError
 
-            string_list = command.split(" ")
+            string_list = arg.split(" ")
             key_value_dict = {}
 
             for index in range(1, len(string_list)):
@@ -138,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
                 newInstance = eval(string_list[0])()
             else:
                 newInstance = eval(string_list[0])(**key_value_dict)
-                
+
             storage.new(newInstance)
             print(newInstance.id)
             newInstance.save()
@@ -219,7 +219,6 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-        
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
