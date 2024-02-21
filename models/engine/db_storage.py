@@ -2,7 +2,7 @@
 """defines a database based storage engine"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base, BaseModel
+from models.base_model import Base
 import os
 
 
@@ -61,7 +61,7 @@ class DBStorage:
     def reload(self):
         """create all tables in the database"""
         Base.metadata.create_all(self.__engine)
-        my_session = sessionmaker(bind=self.__engine,
+        session_factory = sessionmaker(bind=self.__engine,
                                   expire_on_commit=False)
-        Session = scoped_session(my_session)
+        Session = scoped_session(session_factory)
         self.__session = Session()
