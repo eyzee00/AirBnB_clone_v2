@@ -9,10 +9,10 @@ from sqlalchemy import Table
 from sqlalchemy.orm import relationship
 
 place_amenity = Table('place_amenity', Base.metadata,
-                    Column('place_id', ForeignKey('places.id'),
-                           primary_key=True, nullable=False),
-                    Column('amenity_id', ForeignKey('amenities.id'),
-                           primary_key=True, nullable=False),)
+                      Column('place_id', ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False),)
 
 
 class Place (BaseModel, Base):
@@ -20,8 +20,8 @@ class Place (BaseModel, Base):
     """ A place to stay """
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    name = Column(String(128))
-    description = Column(String(1024), nullable=True)
+    name = Column(String(128), nullable=False)
+    description = Column(String(1024))
     number_rooms = Column(Integer, nullable=False, default=0)
     number_bathrooms = Column(Integer, nullable=False, default=0)
     max_guest = Column(Integer, nullable=False, default=0)
@@ -30,7 +30,7 @@ class Place (BaseModel, Base):
     longitude = Column(Float)
     reviews = relationship('Review', backref='place', cascade='delete')
     amenities = relationship('Amenity', secondary=place_amenity,
-                            viewonly=False, back_populates="place_amenities")
+                             viewonly=False, back_populates="place_amenities")
     amenity_ids = []
 
     if os.getenv("HBNB_TYPE_STORAGE", None) != 'db':
@@ -42,12 +42,12 @@ class Place (BaseModel, Base):
                 if review.place_id == self.id:
                     review_list.append(review)
             return review_list
-        
+
         @property
         def amenities(self):
             """amenities getter"""
             return self.amenity_ids
-        
+
         @amenities.setter
         def amenities(self, obj=None):
             """amenities setter"""

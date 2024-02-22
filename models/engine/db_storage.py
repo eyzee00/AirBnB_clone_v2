@@ -15,7 +15,7 @@ from os import getenv
 
 class DBStorage:
     """defines a database storage"""
-    
+
     __engine = None
     __session = None
 
@@ -27,7 +27,7 @@ class DBStorage:
         db = getenv("HBNB_MYSQL_DB")
 
         self.__engine = create_engine(
-            "mysql+mysqldb://{}:{}@{}:3306/{}"
+            "mysql+mysqldb://{}:{}@{}/{}"
             .format(user, passwd, host, db),
             pool_pre_ping=True
         )
@@ -52,7 +52,7 @@ class DBStorage:
 
     def new(self, obj):
         """add an object to the curerent db session"""
-        self.__session.add(obj)
+        self.__session.merge(obj)
 
     def save(self):
         """commit all changes of the current db session"""
