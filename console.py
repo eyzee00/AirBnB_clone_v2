@@ -10,6 +10,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 from models.user import User
+
 import re
 
 
@@ -177,7 +178,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage.__objects[key])
+            print(storage.all()[key])
         except KeyError:
             print("** no instance found **")
 
