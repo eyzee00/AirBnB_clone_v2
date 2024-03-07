@@ -8,9 +8,9 @@ sudo apt install -y nginx
 
 sudo mkdir -p /data/web_static/shared/
 sudo mkdir -p /data/web_static/releases/test/
-echo "<html><head></head><body>Holberton School</body></html>" > /data/releases/test/index.html
+echo "<html><head></head><body>Holberton School</body></html>" > /data/web_static/releases/test/index.html
 
-ln -sf /data/web_static/current /data/web_static/releases/test/
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -R ubuntu /data/
 sudo chgrp -R ubuntu /data/
