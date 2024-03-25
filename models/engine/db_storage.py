@@ -58,10 +58,6 @@ class DBStorage:
         """commit all changes of the current db session"""
         self.__session.commit()
 
-    def close(self):
-        """Closes the current DBStorage session"""
-        self.__session.close()
-
     def delete(self, obj=None):
         """delete form the current database session"""
         if obj is not None:
@@ -74,3 +70,7 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """Closes the current DBStorage session"""
+        self.__session.close()
